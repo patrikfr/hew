@@ -20,7 +20,13 @@
   (let [response (:body (c/get (str (url host user-id) "/lights/") {:as :json}))]
     (map #(vector (name (key %)) (:name (val %))) response)))
 
+(defn light-state [host user-id light-id]
+  (:body (c/get (str (url host user-id) "/lights/" light-id) {:as :json})))
+
 (defn update-light! [host user-id light-id new-state]
   (c/put
     (str (url host user-id) "/lights/" light-id "/state")
     {:body (json/generate-string new-state)}))
+
+(defn update-light-color! [host user-id light-id xy]
+  (update-light! host user-id light-id {:xy xy}))
