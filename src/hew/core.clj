@@ -1,7 +1,10 @@
 (ns hew.core
   (:require [settings :as s]
             [hew.owfs :as owfs]
-            [hew.hue :as hue])
+            [hew.hue :as hue]
+            [chime :as chime]
+            [clj-time.core :as t]
+            [clj-time.periodic :as tp])
   (:gen-class))
 
 (defn -main
@@ -23,4 +26,16 @@
     ))
 
 
-(hue-ops)
+;(hue-ops)
+
+(defn main-loop []
+  (println "Init")
+  (let [x (promise)]
+
+    (chime/chime-at
+      (rest                                                 ; excludes *right now*
+        (tp/periodic-seq (t/now) (-> 5 t/seconds)))
+      (fn [time] (println "Chiming at" time))
+      {:on-finished #(deliver x "Done!")})
+
+    (deref x)))
