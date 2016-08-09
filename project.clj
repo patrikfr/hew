@@ -6,7 +6,8 @@
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [org.owfs/jowfsclient "1.2.6"]
                  [clj-http "2.2.0"]
-                 [cheshire "5.6.3"]]
+                 [cheshire "5.6.3"]
+                 [jarohen/chime "0.1.9"]]
   :main ^:skip-aot hew.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
