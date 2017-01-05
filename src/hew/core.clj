@@ -41,10 +41,10 @@
 
     (chime/chime-at
       (rest                                                 ; excludes *right now*
-        (tp/periodic-seq (t/now) (-> 5 t/seconds)))
+        (tp/periodic-seq (t/now) (-> 300 t/seconds)))
       (fn [time] (read-and-update (owfs/connect (:owfs s/default))))
       {:on-finished #(deliver x "Done!")})
 
     (deref x)))
 
-(-main)
+;(-main)
