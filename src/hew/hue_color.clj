@@ -24,7 +24,7 @@
       [0 0])))
 
 (defn rgb-to-xy
-  "Convert RGB (0-255) value to Hue xy-space."
+  "Convert a RGB (0-255) value vector to Hue xy-space."
   [color]
   (-> color
       normalize-to-one
