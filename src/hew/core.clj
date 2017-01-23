@@ -10,6 +10,7 @@
   (:gen-class))
 
 (defn owfs-ops []
+  "OWFS ops for REPL use and development"
   (let [owfs (:owfs s/default)
         conn (owfs/connect owfs)
         temp (owfs/read-temp conn (:sensor-id owfs))]
@@ -17,6 +18,7 @@
     (println "Type: " (class temp))))
 
 (defn hue-ops []
+  "Hue ops for REPL use and development"
   (let [host (:host (:hue s/default))
         user-id (:user-id (:hue s/default))]
     (println (hue/lights host user-id))
@@ -34,7 +36,7 @@
     (hue/update-light-color! (:host hue) (:user-id hue) light-id xy)))
 
 (defn -main
-  "I don't do a whole lot ... yet."
+  "Main function, regularily polls the temperature and upate the light"
   [& args]
   (println "Init")
   (let [x (promise)]
