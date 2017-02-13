@@ -11,7 +11,9 @@ The [Philips Hue](http://www.meethue.com) lighting system connects a number of L
  
 ### A 1-Wire temperature sensor network
 [1-Wire](https://en.wikipedia.org/wiki/1-Wire) is a device communications bus system which can be used to connect temperature sensors among other things. Hew expects temperature readings to be sourced from a 1-Wire sensor net by use of [1-Wire File System, OWFS](http://www.owfs.org). Specifically, hew expects an OWFS server available to which it can connect and obtain temperature readings. 
- 
+
+### A JDK
+Hew is written in Clojure. To build and run it you'll need a current JDK.
 
 ## Settings
 
