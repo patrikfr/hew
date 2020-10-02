@@ -36,7 +36,7 @@
     (hue/update-light-color! (:host hue) (:user-id hue) light-id xy)))
 
 (defn -main
-  "Main function, regularily polls the temperature and upate the light"
+  "Main function, regularly polls the temperature and upate the light"
   [& args]
   (println "Init")
   (let [x (promise)]
