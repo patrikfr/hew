@@ -33,7 +33,7 @@ In `target/uberjar` run:
     
     $ java -jar hew-0.1.0-SNAPSHOT-standalone.jar
 
-Copyright © 2016-2017 Patrik Fredriksson
+Copyright © 2016-2021 Patrik Fredriksson
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.

@@ -4,9 +4,8 @@
             [hew.hue :as hue]
             [hew.tempmap :as tempmap]
             [hew.hue-color :as color]
-            [chime :as chime]
-            [clj-time.core :as t]
-            [clj-time.periodic :as tp])
+            [chime.core :as chime])
+  (:import (java.time Instant Duration))
   (:gen-class))
 
 (defn owfs-ops []
@@ -39,14 +38,9 @@
   "Main function, regularly polls the temperature and upate the light"
   [& args]
   (println "Init")
-  (let [x (promise)]
 
-    (chime/chime-at
-      (rest                                                 ; excludes *right now*
-        (tp/periodic-seq (t/now) (-> 300 t/seconds)))
-      (fn [time] (read-and-update (owfs/connect (:owfs s/default))))
-      {:on-finished #(deliver x "Done!")})
-
-    (deref x)))
+  (chime/chime-at
+    (chime/periodic-seq (Instant/now) (Duration/ofMinutes 5))
+    (fn [_] (read-and-update (owfs/connect (:owfs s/default))))))
 
 ;(-main)
