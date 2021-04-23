@@ -5,6 +5,8 @@ Hew is a project making a Philips Hue light emit a color based on (or hew to, if
 In the current version it requires a running OWFS server providing temp info, but this could easily be replace by anouther source or web feed of temperature readings.
 
 Here is short writup: https://medium.com/@weakreference/shorts-or-jeans-f2f1783dc7a4
+
+![lein workflow](https://github.com/patrikfr/hew/actions/workflows/lein.yml/badge.svg)
  
 ## What you need:
 
