@@ -1,5 +1,6 @@
 (ns hew.hue
   (:require [clj-http.client :as c]
+            [clojure.instant :as i]
             [cheshire.core :as json]))
 
 (defn url [host user-id]
@@ -20,9 +21,25 @@
   (let [response (:body (c/get (str (url host user-id) "/lights/") {:as :json}))]
     (map #(vector (name (key %)) (:name (val %))) response)))
 
+(defn sensors
+  "List all sensors and their names"
+  [host user-id]
+  (let [response (:body (c/get (str (url host user-id) "/sensors/") {:as :json}))]
+    (map #(vector (name (key %)) (:name (val %))) response)))
+
+(defn read-temperature
+  "Retrieve state for a given temperature sensor"
+  [host user-id sensor-id]
+  (let [state (:state (:body (c/get (str (url host user-id) "/sensors/" sensor-id) {:as :json})))]
+    (if (not (every? #(contains? state %) [:lastupdated, :temperature]))
+      (throw (throw (Exception. (str "Id does not reference a temperature sensor: " sensor-id)))))
+    (->
+      (update state :lastupdated i/read-instant-timestamp)
+      (update :temperature / 100.0))))
+
 (defn light-state [host user-id light-id]
   "Retrieve state for a given light id"
-  (:body (c/get (str (url host user-id) "/lights/" light-id) {:as :json})))
+  (:state (:body (c/get (str (url host user-id) "/lights/" light-id) {:as :json}))))
 
 (defn update-light! [host user-id light-id new-state]
   "Update given light's state"
