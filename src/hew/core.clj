@@ -1,49 +1,52 @@
 (ns hew.core
-  (:require [settings :as s]
-            [hew.owfs :as owfs]
-            [hew.hue :as hue]
-            [hew.tempmap :as tempmap]
-            [hew.hue-color :as color]
-            [chime.core :as chime])
+  (:require
+    [environ.core :refer [env]]
+    [clojure.edn :as edn]
+    [hew.owfs :as owfs]
+    [hew.hue :as hue]
+    [hew.tempmap :as tempmap]
+    [hew.hue-color :as color]
+    [chime.core :as chime])
   (:import (java.time Instant Duration))
   (:gen-class))
 
 (defn owfs-ops []
   "OWFS ops for REPL use and development"
-  (let [owfs (:owfs s/default)
-        conn (owfs/connect owfs)
-        temp (owfs/read-temp conn (:sensor-id owfs))]
+  (let [conn (owfs/connect (env :owfs-host) (env :owfs-port))
+        temp (owfs/read-temp conn (env :owfs-sensor-id))]
     (println "Temp: " temp)))
 
 (defn hue-ops []
   "Hue ops for REPL use and development"
-  (let [hue (:hue s/default)
-        host (:host hue)
-        user-id (:user-id hue)]
+  (let [host (env :hue-host)
+        user-id (env :hue-user-id)
+        sensor-id (env :hue-sensor-id)]
     (println "Lights: " (hue/lights host user-id))
-    (println "Temp: " (:temperature (hue/read-temperature host user-id (:sensor-id hue))))
+    (if (sensor-id) (println "Temp: " (:temperature (hue/read-temperature host user-id sensor-id))))
     ;(println (hue/light-by-name host user-id "Bloom!"))
     ))
 
 (defn read-and-update [conn]
   "Read temp and update the light"
-  (let [hue (:hue s/default)
-        temp (if (:use-owfs s/default)
-               (owfs/read-temp conn (get-in s/default [:owfs :sensor-id]))
-               (:temperature (hue/read-temperature (:host hue) (:user-id hue) (:sensor-id hue))))
+  (let [hue-host (env :hue-host)
+        hue-user-id (env :hue-user-id)
+        temp (if (edn/read-string (env :use-owfs))
+               (owfs/read-temp conn (env :owfs-sensor-id))
+               (:temperature (hue/read-temperature hue-host hue-user-id (env :hue-sensor-id))))
         rgb (tempmap/to-color temp)
         xy (color/rgb-to-xy rgb)
-        light-id (hue/light-by-name (:host hue) (:user-id hue) (:light-name hue))]
+        light-id (hue/light-by-name hue-host hue-user-id (env :hue-light-name))]
     (println "Updating light" light-id "with xy" xy "for temp:" temp)
-    (hue/update-light-color! (:host hue) (:user-id hue) light-id xy)))
+    (hue/update-light-color! hue-host hue-user-id light-id xy)))
 
 (defn -main
   "Main function, regularly polls the temperature and upate the light"
   [& args]
   (println "Init")
+  (println "Use OWFS? " (env :use-owfs))
 
   (chime/chime-at
     (chime/periodic-seq (Instant/now) (Duration/ofMinutes 5))
-    (fn [_] (read-and-update (owfs/connect (:owfs s/default))))))
+    (fn [_] (read-and-update (owfs/connect (env :owfs-host) (edn/read-string (env :owfs-port))))))) ;TODO: Figure out which temp sensor to use here (OWFS vs Hue)
 
 ;(-main)
