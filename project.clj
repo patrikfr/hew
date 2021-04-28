@@ -19,4 +19,6 @@
              :project/dev  {:dependencies [[midje "1.9.10"]]
                             :plugins      [[lein-midje "3.2.1"]
                                            [lein-environ "1.2.0"]
-                                           [lein-pprint "1.3.2"]]}})
+                                           [lein-pprint "1.3.2"]]}}
+
+  :uberjar-name "hew.jar")
