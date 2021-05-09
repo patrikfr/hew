@@ -31,10 +31,10 @@
   "Retrieve state for a given temperature sensor"
   [host user-id sensor-id]
   (let [state (:state (:body (c/get (str (url host user-id) "/sensors/" sensor-id) {:as :json})))]
-    (if (not (every? #(contains? state %) [:lastupdated, :temperature]))
-      (throw (throw (Exception. (str "Id does not reference a temperature sensor: " sensor-id)))))
+    (if-not (every? #(contains? state %) [:lastupdated, :temperature])
+      (throw (Exception. (str "Id does not reference a temperature sensor: " sensor-id))))
     (->
-      (update state :lastupdated i/read-instant-timestamp)
+      (update state :lastupdated i/read-instant-date)
       (update :temperature / 100.0))))
 
 (defn light-state [host user-id light-id]
