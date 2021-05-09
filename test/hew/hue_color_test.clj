@@ -1,6 +1,6 @@
 (ns hew.hue-color-test
-  (:use midje.sweet)
-  (:require [hew.hue-color :as hc]))
+  (:require [midje.sweet :refer :all]
+            [hew.hue-color :as hc]))
 
 (defn s [[x y]]
   [(.setScale (bigdec x) 4 BigDecimal/ROUND_HALF_UP)

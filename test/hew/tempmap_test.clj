@@ -1,6 +1,6 @@
 (ns hew.tempmap-test
-  (:use midje.sweet)
-  (:require [hew.tempmap :as t]))
+  (:require [midje.sweet :refer :all]
+            [hew.tempmap :as t]))
 
 (fact "Mapping temp (in °C) to RGB values"
       (t/to-color 10.5) => [255, 229, 0]
