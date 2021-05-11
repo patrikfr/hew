@@ -106,5 +106,4 @@ USE_OWFS=false HUE_HOST=192.168.0.1 HUE_USER_ID=hue-user-id HUE_LIGHT_NAME=Bloom
 
 Copyright © 2016-2021 Patrik Fredriksson
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the MIT License.
