@@ -34,7 +34,8 @@
     (if-not (every? #(contains? state %) [:lastupdated, :temperature])
       (throw (Exception. (str "Id does not reference a temperature sensor: " sensor-id))))
     (->
-      (update state :lastupdated i/read-instant-date)
+      state
+      (update :lastupdated i/read-instant-date)
       (update :temperature / 100.0))))
 
 (defn light-state [host user-id light-id]
