@@ -10,7 +10,7 @@ The temperature is read, and the light is updated, every five minutes. The Hue t
 
 Writeups: 
  * Original: https://medium.com/@weakreference/shorts-or-jeans-f2f1783dc7a4 
- * Revisisted: https://weakreference.medium.com/shorts-or-jeans-revisited-e2fc7f9c9559
+ * Revisited: https://weakreference.medium.com/shorts-or-jeans-revisited-e2fc7f9c9559
 
 ![lein workflow](https://github.com/patrikfr/hew/actions/workflows/lein.yml/badge.svg)
  
