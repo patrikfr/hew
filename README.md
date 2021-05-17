@@ -8,7 +8,9 @@ In the current version it can acquire temperature readings from either:
 
 The temperature is read, and the light is updated, every five minutes. The Hue temperature sensor seems to be sending updates to the bridge every five minute while OWFS readings are generally instant.
 
-Here is short writeup: https://medium.com/@weakreference/shorts-or-jeans-f2f1783dc7a4
+Writeups: 
+ * Original: https://medium.com/@weakreference/shorts-or-jeans-f2f1783dc7a4 
+ * Revisisted: https://weakreference.medium.com/shorts-or-jeans-revisited-e2fc7f9c9559
 
 ![lein workflow](https://github.com/patrikfr/hew/actions/workflows/lein.yml/badge.svg)
  
